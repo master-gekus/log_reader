@@ -2,12 +2,17 @@
 
 #include <stddef.h>
 
-CPattern::CPattern()
+#include "pattern_element.h"
+
+CPattern::CPattern(CPatternElement* elements, size_t size)
+  : size_(size)
+  , elements_(elements)
 {
 }
 
 CPattern::~CPattern()
 {
+  delete [] const_cast<CPatternElement*>(elements_);
 }
 
 size_t CPattern::count_parts(const char* filter)
