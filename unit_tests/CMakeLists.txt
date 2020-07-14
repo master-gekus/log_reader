@@ -30,6 +30,7 @@ set(GTEST_LIBS_DIR ${BINARY_DIR}/lib)
 add_executable(${PROJECT_NAME}
   ${LOG_READER_SOURCES}
   logreader_unit_tests_main.cpp
+  logreader_unit_tests_pattern.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

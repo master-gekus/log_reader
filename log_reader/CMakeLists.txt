@@ -9,6 +9,10 @@ project(log_reader LANGUAGES CXX)
 set(LOG_READER_SOURCES
   ${CMAKE_CURRENT_SOURCE_DIR}/log_reader.h
   ${CMAKE_CURRENT_SOURCE_DIR}/log_reader.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/pattern.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/pattern.cpp
+  ${CMAKE_CURRENT_SOURCE_DIR}/pattern_element.h
+  ${CMAKE_CURRENT_SOURCE_DIR}/pattern_element.cpp
   )
 
 add_library(${PROJECT_NAME} STATIC
