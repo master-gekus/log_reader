@@ -4,6 +4,8 @@
 #include "search_stream.h"
 #include "search_engine.h"
 
+#include "logreader_unit_tests_pointer_guard.h"
+
 class StringSearchStream : public ISearchStream
 {
 public:

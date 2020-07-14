@@ -6,6 +6,8 @@
 #include "pattern.h"
 #include "pattern_element.h"
 
+#include "logreader_unit_tests_pointer_guard.h"
+
 struct pattern_params
 {
   const char* filter_;
@@ -63,15 +65,6 @@ const pattern_params testing_params[] = {
 
 class Compile : public ::testing::TestWithParam<pattern_params>
 {
-protected:
-  class guard
-  {
-  public:
-    inline explicit guard(CPattern* ptr) : ptr_(ptr) {}
-    inline ~guard() {delete ptr_;}
-  private:
-    CPattern* ptr_;
-  };
 };
 
 TEST_P(Compile, Create)
@@ -87,9 +80,8 @@ TEST_P(Compile, Create)
     EXPECT_EQ(count, CPattern::count_parts(params.filter_));
   }
 
-  CPattern *pattern = CPattern::create(params.filter_);
-  EXPECT_NE(pattern, static_cast<CPattern *>(NULL));
-  guard g(pattern);
+  pointer_guard<CPattern> pattern(CPattern::create(params.filter_));
+  EXPECT_TRUE(pattern);
 
   EXPECT_EQ(pattern->size(), count);
   EXPECT_EQ(pattern->FromBegin(), params.from_begin_);
