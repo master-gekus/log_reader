@@ -17,11 +17,6 @@ CPattern::~CPattern()
 
 size_t CPattern::count_parts(const char* filter)
 {
-  static const char* def_filter = "*";
-  if (NULL == filter) {
-    filter = def_filter;
-  }
-
   size_t parts = 0;
   bool in_part = false;
   for (; *filter; ++filter) {
@@ -42,4 +37,17 @@ size_t CPattern::count_parts(const char* filter)
   }
 
   return (0 == parts) ? 1 : parts;
+}
+
+CPattern* CPattern::create(const char* filter)
+{
+  static const char* def_filter = "*";
+  if (NULL == filter) {
+    filter = def_filter;
+  }
+
+  size_t count = count_parts(filter);
+  CPatternElement *elements = new CPatternElement [count];
+
+  return new CPattern(elements, count);
 }

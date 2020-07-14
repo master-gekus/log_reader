@@ -50,6 +50,15 @@ const pattern_params testing_params[] = {
 
 class Compile : public ::testing::TestWithParam<pattern_params>
 {
+protected:
+  class guard
+  {
+  public:
+    inline explicit guard(CPattern* ptr) : ptr_(ptr) {}
+    inline ~guard() {delete ptr_;}
+  private:
+    CPattern* ptr_;
+  };
 };
 
 TEST_P(Compile, Create)
@@ -61,7 +70,15 @@ TEST_P(Compile, Create)
     ++count;
   }
 
-  EXPECT_EQ(count, CPattern::count_parts(params.filter_));
+  if (NULL != params.filter_) {
+    EXPECT_EQ(count, CPattern::count_parts(params.filter_));
+  }
+
+  CPattern *pattern = CPattern::create(params.filter_);
+  EXPECT_NE(pattern, static_cast<CPattern *>(NULL));
+  guard g(pattern);
+
+  EXPECT_EQ(pattern->size(), count);
 }
 
 INSTANTIATE_TEST_SUITE_P(Pattern, Compile,::testing::ValuesIn(testing_params));
