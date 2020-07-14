@@ -58,8 +58,14 @@ bool CPatternElement::match(ISearchStream* s, uint64_t offset, bool& can_continu
     m = false;
   }
 
-  at_end = m && ('\0' == remove_crlf(s->at(offset + size_)));
-  can_continue = !at_end;
+  if ('\0' == remove_crlf(s->at(offset + size_))) {
+    eol_offset = offset + size_;
+    at_end = m;
+    can_continue = false;
+  }
+  else {
+    can_continue = true;
+  }
 
   return m;
 }

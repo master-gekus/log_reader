@@ -9,6 +9,10 @@
 #include <stddef.h>
 #include <stdint.h>
 
+#ifdef GTEST_INVOKED
+#include <gtest/gtest_prod.h>
+#endif
+
 class ISearchStream;
 
 /**
@@ -35,6 +39,10 @@ private:
   size_t size_;
 
 friend class CPattern;
+
+#ifdef GTEST_INVOKED
+  FRIEND_TEST(Pattern, PrimitiveMatch);
+#endif
 };
 
 inline const char* CPatternElement::data() const
