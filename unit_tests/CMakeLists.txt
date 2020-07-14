@@ -31,6 +31,7 @@ add_executable(${PROJECT_NAME}
   ${LOG_READER_SOURCES}
   logreader_unit_tests_main.cpp
   logreader_unit_tests_pattern.cpp
+  logreader_unit_tests_search.cpp
 )
 
 target_include_directories(${PROJECT_NAME} PRIVATE

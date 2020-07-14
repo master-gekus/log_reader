@@ -16,6 +16,10 @@ set(LOG_READER_SOURCES
   ${LOG_READER_SOURCE_DIR}/pattern.cpp
   ${LOG_READER_SOURCE_DIR}/pattern_element.h
   ${LOG_READER_SOURCE_DIR}/pattern_element.cpp
+  ${LOG_READER_SOURCE_DIR}/search_stream.h
+  ${LOG_READER_SOURCE_DIR}/search_stream.cpp
+  ${LOG_READER_SOURCE_DIR}/search_engine.h
+  ${LOG_READER_SOURCE_DIR}/search_engine.cpp
   )
 
 add_library(${PROJECT_NAME} STATIC

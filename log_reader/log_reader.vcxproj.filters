@@ -24,6 +24,12 @@
     <ClInclude Include="src\pattern_element.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\search_engine.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\search_stream.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\log_reader.cpp">
@@ -33,6 +39,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\pattern_element.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\search_engine.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\search_stream.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
