@@ -1,0 +1,14 @@
+*.user
+*.VC.db
+*.VC.opendb
+*.pdb
+*.pch
+*.aps
+
+.vs/
+[Dd]ebug/
+[Rr]elease/
+x86/
+x64/
+ipch/
+
