@@ -17,6 +17,9 @@ protected:
   ISearchStream();
 public:
   virtual ~ISearchStream();
+
+public:
+  virtual char at(uint64_t offset) const = 0;
 };
 
 #endif // !ISEARCHSTREAM_H_INCLUDED
