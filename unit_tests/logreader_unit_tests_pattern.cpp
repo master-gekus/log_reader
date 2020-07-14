@@ -1,7 +1,10 @@
 #include <clocale>
+#include <string>
+
 #include <gtest/gtest.h>
 
 #include "pattern.h"
+#include "pattern_element.h"
 
 struct pattern_params
 {
@@ -20,6 +23,7 @@ const char* p03[] = {"a", NULL};
 const char* p04[] = {"abc", NULL};
 const char* p05[] = {"a", "b", NULL};
 const char* p06[] = {"?", "?", NULL};
+const char* p07[] = {"Quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog", NULL};
 const pattern_params testing_params[] = {
   {NULL, p01},
   {"*", p01},
@@ -46,6 +50,11 @@ const pattern_params testing_params[] = {
   {"*a*b*", p05},
 
   {"*?*?*", p06},
+
+  {"Quick*brown*fox*jumps*over*the*lazy*dog", p07},
+  {"*Quick*brown*fox*jumps*over*the*lazy*dog", p07},
+  {"Quick*brown*fox*jumps*over*the*lazy*dog*", p07},
+  {"*Quick*brown*fox*jumps*over*the*lazy*dog*", p07},
 };
 
 class Compile : public ::testing::TestWithParam<pattern_params>
@@ -79,6 +88,11 @@ TEST_P(Compile, Create)
   guard g(pattern);
 
   EXPECT_EQ(pattern->size(), count);
+
+  for (size_t i = 0; i < count; ++i) {
+    const CPatternElement *e = pattern->elements() + i;
+    EXPECT_EQ(::std::string(e->data(), e->size()), ::std::string(params.parts_[i]));
+  }
 }
 
 INSTANTIATE_TEST_SUITE_P(Pattern, Compile,::testing::ValuesIn(testing_params));

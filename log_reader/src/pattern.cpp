@@ -49,5 +49,29 @@ CPattern* CPattern::create(const char* filter)
   size_t count = count_parts(filter);
   CPatternElement *elements = new CPatternElement [count];
 
+  bool from_begin = ((*filter) != '*');
+  bool to_end = false;
+  CPatternElement *e = elements;
+  const char* part_start = NULL;
+  for (; *filter; ++filter) {
+    if ('*' == (*filter)) {
+      if (NULL != part_start) {
+        e->set_string(part_start, filter);
+        part_start = NULL;
+        ++e;
+      }
+    }
+    else {
+      if (NULL == part_start) {
+        part_start = filter;
+      }
+    }
+  }
+
+  if (NULL != part_start) {
+    e->set_string(part_start, filter);
+    to_end = true;
+  }
+
   return new CPattern(elements, count);
 }
