@@ -8,4 +8,5 @@ project(test_task LANGUAGES CXX)
 
 add_subdirectory(log_reader)
 add_subdirectory(test_app)
+add_subdirectory(unit_tests)
 
