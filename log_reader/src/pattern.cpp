@@ -4,9 +4,11 @@
 
 #include "pattern_element.h"
 
-CPattern::CPattern(CPatternElement* elements, size_t size)
+CPattern::CPattern(CPatternElement* elements, size_t size, bool from_begin, bool to_end)
   : size_(size)
   , elements_(elements)
+  , from_begin_(from_begin)
+  , to_end_(to_end)
 {
 }
 
@@ -73,5 +75,5 @@ CPattern* CPattern::create(const char* filter)
     to_end = true;
   }
 
-  return new CPattern(elements, count);
+  return new CPattern(elements, count, from_begin, to_end);
 }

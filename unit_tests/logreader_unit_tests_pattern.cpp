@@ -10,6 +10,8 @@ struct pattern_params
 {
   const char* filter_;
   const char** parts_;
+  const bool from_begin_;
+  const bool to_end_;
 };
 
 ::std::ostream& operator <<(::std::ostream& os, const pattern_params& value)
@@ -25,36 +27,38 @@ const char* p05[] = {"a", "b", NULL};
 const char* p06[] = {"?", "?", NULL};
 const char* p07[] = {"Quick", "brown", "fox", "jumps", "over", "the", "lazy", "dog", NULL};
 const pattern_params testing_params[] = {
-  {NULL, p01},
-  {"*", p01},
-  {"**", p01},
-  {"***", p01},
+  {NULL, p01, false, false},
+  {"*", p01, false, false},
+  {"**", p01, false, false},
+  {"***", p01, false, false},
 
-  {"*?*", p02},
-  {"**?**", p02},
+  {"?*", p02, true, false},
+  {"*?", p02, false, true},
+  {"*?*", p02, false, false},
+  {"**?**", p02, false, false},
 
-  {"a", p03},
-  {"*a", p03},
-  {"a*", p03},
-  {"*a*", p03},
-  {"*a**", p03},
-  {"**a*", p03},
+  {"a", p03, true, true},
+  {"*a", p03, false, true},
+  {"a*", p03, true, false},
+  {"*a*", p03, false, false},
+  {"*a**", p03, false, false},
+  {"**a*", p03, false, false},
 
-  {"abc", p04},
-  {"*abc", p04},
-  {"abc*", p04},
+  {"abc", p04, true, true},
+  {"*abc", p04, false, true},
+  {"abc*", p04, true, false},
 
-  {"a*b", p05},
-  {"*a*b", p05},
-  {"a*b*", p05},
-  {"*a*b*", p05},
+  {"a*b", p05, true, true},
+  {"*a*b", p05, false, true},
+  {"a*b*", p05, true, false},
+  {"*a*b*", p05, false, false},
 
-  {"*?*?*", p06},
+  {"*?*?*", p06, false, false},
 
-  {"Quick*brown*fox*jumps*over*the*lazy*dog", p07},
-  {"*Quick*brown*fox*jumps*over*the*lazy*dog", p07},
-  {"Quick*brown*fox*jumps*over*the*lazy*dog*", p07},
-  {"*Quick*brown*fox*jumps*over*the*lazy*dog*", p07},
+  {"Quick*brown*fox*jumps*over*the*lazy*dog", p07, true, true},
+  {"*Quick*brown*fox*jumps*over*the*lazy*dog", p07, false, true},
+  {"Quick*brown*fox*jumps*over*the*lazy*dog*", p07, true, false},
+  {"*Quick*brown*fox*jumps*over*the*lazy*dog*", p07, false, false},
 };
 
 class Compile : public ::testing::TestWithParam<pattern_params>
@@ -88,6 +92,8 @@ TEST_P(Compile, Create)
   guard g(pattern);
 
   EXPECT_EQ(pattern->size(), count);
+  EXPECT_EQ(pattern->FromBegin(), params.from_begin_);
+  EXPECT_EQ(pattern->ToEnd(), params.to_end_);
 
   for (size_t i = 0; i < count; ++i) {
     const CPatternElement *e = pattern->elements() + i;
