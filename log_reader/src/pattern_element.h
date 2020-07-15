@@ -41,7 +41,7 @@ private:
 friend class CPattern;
 
 #ifdef GTEST_INVOKED
-  FRIEND_TEST(Pattern, PrimitiveMatch);
+  FRIEND_TEST(Pattern, Match);
 #endif
 };
 
