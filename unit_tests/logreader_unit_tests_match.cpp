@@ -3,8 +3,6 @@
 
 #include "pattern.h"
 #include "pattern_element.h"
-#include "search_stream.h"
-#include "search_engine.h"
 
 #include "logreader_unit_tests_pointer_guard.h"
 #include "logreader_unit_tests_sss.h"

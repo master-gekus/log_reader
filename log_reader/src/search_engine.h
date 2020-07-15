@@ -6,6 +6,8 @@
 #ifndef CSEARCHENGINE_H_INCLUDED
 #define CSEARCHENGINE_H_INCLUDED
 
+#include <stdint.h>
+
 class ISearchStream;
 
 /**
@@ -25,8 +27,18 @@ public:
    */
   CSearchEngine(ISearchStream *stream);
 
+  uint64_t current_line_begin() const;
+  bool next_line() const;
+
 private:
   ISearchStream *stream_;
+
+  uint64_t current_offset_;
 };
+
+inline uint64_t CSearchEngine::current_line_begin() const
+{
+  return current_offset_;
+}
 
 #endif // !CSEARCHENGINE_H_INCLUDED
