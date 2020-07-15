@@ -9,6 +9,7 @@
 #include <stdint.h>
 
 class ISearchStream;
+class ILogReaderResult;
 class CPattern;
 class CPatternElement;
 
@@ -34,6 +35,7 @@ public:
 
   uint64_t current_line_begin() const;
   bool next_line();
+  bool get_line(ILogReaderResult* result);
 
   bool match(const CPattern* pattern) const;
   bool match(uint64_t offset, const CPatternElement* element, size_t rest_elements, bool to_end) const;

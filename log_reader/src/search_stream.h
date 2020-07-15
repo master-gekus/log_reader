@@ -8,6 +8,8 @@
 
 #include <stdint.h>
 
+class ILogReaderResult;
+
 /**
  * @brief ISearchStream - интерфейс для источника поиска
  */
@@ -27,8 +29,11 @@ public:
 
   uint64_t last_offset() const;
 
+  bool get_result(ILogReaderResult* result, uint64_t from, uint64_t to);
+
 private:
   virtual char at_(uint64_t offset) = 0;
+  virtual bool get_result_(ILogReaderResult* result, uint64_t from, uint64_t to) = 0;
 
 private:
   uint64_t eol_offset_;
@@ -68,6 +73,11 @@ inline void ISearchStream::drop_eol_offset()
 inline uint64_t ISearchStream::last_offset() const
 {
   return last_offset_;
+}
+
+inline bool ISearchStream::get_result(ILogReaderResult* result, uint64_t from, uint64_t to)
+{
+  return get_result_(result, from, to);
 }
 
 #endif // !ISEARCHSTREAM_H_INCLUDED

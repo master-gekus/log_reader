@@ -4,6 +4,7 @@
 #include "pattern.h"
 #include "search_stream.h"
 #include "search_engine.h"
+#include "log_reader_string_result.h"
 
 #include "logreader_unit_tests_pointer_guard.h"
 #include "logreader_unit_tests_sss.h"
@@ -64,7 +65,11 @@ protected:
     const char** p = params.lines_;
     while (true) {
       if (e->match(pattern)) {
+        char buf[1024];
+        CLogReaderStringResult res(buf, sizeof (buf));
+        ASSERT_TRUE(e->get_line(&res));
         ASSERT_NE(*p, static_cast<char*>(NULL));
+        EXPECT_STREQ(buf, *p);
         ++p;
       }
       if (!e->next_line()) {

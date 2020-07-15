@@ -20,6 +20,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="include\log_reader.h" />
+    <ClInclude Include="include\log_reader_result.h" />
+    <ClInclude Include="src\log_reader_string_result.h" />
     <ClInclude Include="src\pattern.h" />
     <ClInclude Include="src\pattern_element.h" />
     <ClInclude Include="src\search_engine.h" />
@@ -27,6 +29,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\log_reader.cpp" />
+    <ClCompile Include="src\log_reader_result.cpp" />
+    <ClCompile Include="src\log_reader_string_result.cpp" />
     <ClCompile Include="src\pattern.cpp" />
     <ClCompile Include="src\pattern_element.cpp" />
     <ClCompile Include="src\search_engine.cpp" />

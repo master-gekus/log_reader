@@ -65,6 +65,11 @@ bool CSearchEngine::next_line()
   return result;
 }
 
+bool CSearchEngine::get_line(ILogReaderResult* result)
+{
+  return stream_->get_result(result, current_offset_, search_eol());
+}
+
 bool CSearchEngine::match(const CPattern* pattern) const
 {
   const CPatternElement *element = pattern->elements();

@@ -12,6 +12,10 @@ set(LOG_READER_INCLUDE_DIR ${CMAKE_CURRENT_SOURCE_DIR}/include)
 set(LOG_READER_SOURCES
   ${LOG_READER_INCLUDE_DIR}/log_reader.h
   ${LOG_READER_SOURCE_DIR}/log_reader.cpp
+  ${LOG_READER_INCLUDE_DIR}/log_reader_result.h
+  ${LOG_READER_SOURCE_DIR}/log_reader_result.cpp
+  ${LOG_READER_SOURCE_DIR}/log_reader_string_result.h
+  ${LOG_READER_SOURCE_DIR}/log_reader_string_result.cpp
   ${LOG_READER_SOURCE_DIR}/pattern.h
   ${LOG_READER_SOURCE_DIR}/pattern.cpp
   ${LOG_READER_SOURCE_DIR}/pattern_element.h
