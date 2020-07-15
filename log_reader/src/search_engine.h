@@ -36,7 +36,7 @@ public:
   bool next_line();
 
   bool match(const CPattern* pattern) const;
-  uint64_t match(uint64_t offset, const CPattern* pattern) const;
+  bool match(uint64_t offset, const CPatternElement* element, size_t rest_elements, bool to_end) const;
 
 private:
   uint64_t search_eol();

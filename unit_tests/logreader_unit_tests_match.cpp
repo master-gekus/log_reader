@@ -20,7 +20,7 @@ struct patternelement_params
 
 ::std::ostream& operator <<(::std::ostream& os, const patternelement_params& value)
 {
-  return os << value.pattern_ << "(" << value.offset_ << ")";
+  return os << '"' << value.pattern_ << "\" (" << value.offset_ << ")";
 }
 
 class Pattern : public ::testing::TestWithParam<patternelement_params>
@@ -43,6 +43,8 @@ const patternelement_params pe_params[] = {
   {"lin", 18, true, true, false, static_cast<uint64_t>(-1), static_cast<uint64_t>(21)},
   {"lin?", 30, true, false, true, static_cast<uint64_t>(34), static_cast<uint64_t>(34)},
   {"lin?", 41, true, false, true, static_cast<uint64_t>(45), static_cast<uint64_t>(45)},
+  {"", 0, true, true, false, static_cast<uint64_t>(-1), static_cast<uint64_t>(0)},
+  {"", 10, true, false, true, static_cast<uint64_t>(10), static_cast<uint64_t>(10)},
 };
 
 const char st01[] =

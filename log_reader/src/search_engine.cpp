@@ -3,6 +3,8 @@
 #include <assert.h>
 
 #include "search_stream.h"
+#include "pattern.h"
+#include "pattern_element.h"
 
 CSearchEngine::CSearchEngine(ISearchStream *stream)
   : stream_(stream)
@@ -65,5 +67,45 @@ bool CSearchEngine::next_line()
 
 bool CSearchEngine::match(const CPattern* pattern) const
 {
-  return true;
+  const CPatternElement *element = pattern->elements();
+  size_t rest_elements = pattern->size();
+  uint64_t index = current_offset_;
+
+  if (pattern->FromBegin()) {
+    bool can_continue;
+    bool at_end;
+    if (!element->match(stream_, index, can_continue, at_end)) {
+      return false;
+    }
+    if (0 == (--rest_elements)) {
+      return pattern->ToEnd() ? at_end : true;
+    }
+    index += element->size();
+    ++element;
+  }
+
+  return match(index, element, rest_elements, pattern->ToEnd());
+}
+
+bool CSearchEngine::match(uint64_t offset, const CPatternElement* element, size_t rest_elements, bool to_end) const
+{
+  for (uint64_t o = offset; true; ++o) {
+    bool can_continue;
+    bool at_end;
+    if (element->match(stream_, o, can_continue, at_end)) {
+      if (1 == rest_elements) {
+        if ((!to_end) || at_end) {
+          return true;
+        }
+      }
+      else {
+        return match(o + element->size(), element + 1, rest_elements - 1, to_end);
+      }
+    }
+    if (!can_continue) {
+      break;
+    }
+  }
+
+  return false;
 }

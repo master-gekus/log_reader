@@ -9,17 +9,21 @@
 #include "logreader_unit_tests_sss.h"
 
 const char st01[] =
-    /*  0 */ "First line\n"
-    /* 11 */ "Second line\r\n"
-    /* 24 */ "Third line\n\r"
-    /* 36 */ "Last line";
+    "First line\n"
+    "_First line_\n"
+    "Second line\r\n"
+    "\r\n"
+    "Third line\n\r"
+    "Last line";
 
 const char st01_bom[] =
-    /*  0 */ "\xEF\xBB\xBF"
-    /*  3 */ "First line\n"
-    /* 14 */ "Second line\r\n"
-    /* 27 */ "Third line\n\r"
-    /* 39 */ "Last line";
+    "\xEF\xBB\xBF"
+    "First line\n"
+    "_First line_\n"
+    "Second line\r\n"
+    "\r\n"
+    "Third line\n\r"
+    "Last line";
 
 TEST(SearchEngine, CreateDestroy)
 {
@@ -44,7 +48,7 @@ struct searchengine_params
 
 ::std::ostream& operator <<(::std::ostream& os, const searchengine_params& value)
 {
-  return os << ((NULL == value.pattern_) ? "(null)" : value.pattern_);
+  return os << '"' << ((NULL == value.pattern_) ? "(null)" : value.pattern_) << '"';
 }
 
 class SearchEngine : public ::testing::TestWithParam<searchengine_params>
@@ -71,7 +75,19 @@ protected:
   }
 };
 
+const char* l00[] = {NULL};
+
 const char* l01[] = {
+  "First line", "_First line_", "Second line", "", "Third line", "Last line",
+  NULL
+};
+
+const char* l02[] = {
+  "First line", "_First line_", "Second line", "Third line", "Last line",
+  NULL
+};
+
+const char* l03[] = {
   "First line", "Second line", "Third line", "Last line",
   NULL
 };
@@ -80,6 +96,19 @@ const searchengine_params se_params[] {
   {NULL, l01},
   {"*", l01},
   {"**", l01},
+  {"q", l00},
+  {"*q", l00},
+  {"q*", l00},
+  {"?", l00},
+  {"*?", l02},
+  {"?*", l02},
+  {"line", l00},
+  {"*line", l03},
+  {"*line*", l02},
+  {"* *line*", l02},
+  {"* *line", l03},
+  {"?* *line*", l02},
+  {"?* *lin?", l03},
 };
 
 TEST_P(SearchEngine, Search)
