@@ -9,6 +9,8 @@
 #include <stdint.h>
 
 class ISearchStream;
+class CPattern;
+class CPatternElement;
 
 /**
  * @brief CSearchEngine - класс, который, собственно, и осуществляет поиск
@@ -27,14 +29,28 @@ public:
    */
   CSearchEngine(ISearchStream *stream);
 
+public:
+  ISearchStream* stream() const;
+
   uint64_t current_line_begin() const;
-  bool next_line() const;
+  bool next_line();
+
+  bool match(const CPattern* pattern) const;
+  uint64_t match(uint64_t offset, const CPattern* pattern) const;
+
+private:
+  uint64_t search_eol();
 
 private:
   ISearchStream *stream_;
 
   uint64_t current_offset_;
 };
+
+inline ISearchStream* CSearchEngine::stream() const
+{
+  return stream_;
+}
 
 inline uint64_t CSearchEngine::current_line_begin() const
 {

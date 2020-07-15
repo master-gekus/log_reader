@@ -39,6 +39,7 @@ TEST(SearchEngine, CreateDestroy)
 struct searchengine_params
 {
   const char* pattern_;
+  const char** lines_;
 };
 
 ::std::ostream& operator <<(::std::ostream& os, const searchengine_params& value)
@@ -48,34 +49,51 @@ struct searchengine_params
 
 class SearchEngine : public ::testing::TestWithParam<searchengine_params>
 {
+protected:
+  void PerformSearch(CSearchEngine *e)
+  {
+    const searchengine_params params = GetParam();
+
+    pointer_guard<CPattern> pattern(CPattern::create(params.pattern_));
+    ASSERT_TRUE(pattern);
+
+    const char** p = params.lines_;
+    while (true) {
+      if (e->match(pattern)) {
+        ASSERT_NE(*p, static_cast<char*>(NULL));
+        ++p;
+      }
+      if (!e->next_line()) {
+        break;
+      }
+    }
+    EXPECT_EQ(*p, static_cast<char*>(NULL));
+  }
+};
+
+const char* l01[] = {
+  "First line", "Second line", "Third line", "Last line",
+  NULL
 };
 
 const searchengine_params se_params[] {
-  {NULL},
-  {"*"},
-  {"**"},
+  {NULL, l01},
+  {"*", l01},
+  {"**", l01},
 };
 
 TEST_P(SearchEngine, Search)
 {
-  const searchengine_params params = GetParam();
-
-  pointer_guard<CPattern> pattern(CPattern::create(params.pattern_));
-  ASSERT_TRUE(pattern);
-
   StringSearchStream ss(st01);
   CSearchEngine e(&ss);
+  PerformSearch(&e);
 }
 
 TEST_P(SearchEngine, SearchWithBOM)
 {
-  const searchengine_params params = GetParam();
-
-  pointer_guard<CPattern> pattern(CPattern::create(params.pattern_));
-  ASSERT_TRUE(pattern);
-
   StringSearchStream ss(st01_bom);
   CSearchEngine e(&ss);
+  PerformSearch(&e);
 }
 
 INSTANTIATE_TEST_SUITE_P(SearchEngine, SearchEngine, ::testing::ValuesIn(se_params));
