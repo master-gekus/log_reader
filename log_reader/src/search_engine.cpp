@@ -9,6 +9,8 @@
 CSearchEngine::CSearchEngine(ISearchStream *stream)
   : stream_(stream)
   , current_offset_(0)
+  , current_line_(1)
+  , eof_(false)
 {
   assert(NULL != stream);
 
@@ -33,11 +35,16 @@ uint64_t CSearchEngine::search_eol()
 
 bool CSearchEngine::next_line()
 {
+  if (eof_) {
+    return false;
+  }
+
   uint64_t o = search_eol();
 
   bool result = true;
   switch (stream_->at(o)) {
   case '\0':
+    eof_ = true;
     result = false;
     break;
 
@@ -62,6 +69,7 @@ bool CSearchEngine::next_line()
 
   current_offset_ = o;
   stream_->drop_eol_offset();
+  ++current_line_;
   return result;
 }
 

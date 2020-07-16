@@ -34,6 +34,9 @@ public:
   ISearchStream* stream() const;
 
   uint64_t current_line_begin() const;
+  uint64_t current_line_number() const;
+  bool eof() const;
+
   bool next_line();
   bool get_line(ILogReaderResult* result);
 
@@ -47,6 +50,8 @@ private:
   ISearchStream *stream_;
 
   uint64_t current_offset_;
+  uint64_t current_line_;
+  bool eof_;
 };
 
 inline ISearchStream* CSearchEngine::stream() const
@@ -57,6 +62,16 @@ inline ISearchStream* CSearchEngine::stream() const
 inline uint64_t CSearchEngine::current_line_begin() const
 {
   return current_offset_;
+}
+
+inline bool CSearchEngine::eof() const
+{
+  return eof_;
+}
+
+inline uint64_t CSearchEngine::current_line_number() const
+{
+  return current_line_;
 }
 
 #endif // !CSEARCHENGINE_H_INCLUDED

@@ -15,7 +15,7 @@ const char st01[] =
     "Second line\r\n"
     "\r\n"
     "Third line\n\r"
-    "Last line";
+    "Last line\n";
 
 const char st01_bom[] =
     "\xEF\xBB\xBF"
@@ -24,7 +24,7 @@ const char st01_bom[] =
     "Second line\r\n"
     "\r\n"
     "Third line\n\r"
-    "Last line";
+    "Last line\n";
 
 TEST(SearchEngine, CreateDestroy)
 {
@@ -38,6 +38,103 @@ TEST(SearchEngine, CreateDestroy)
     StringSearchStream ss(st01_bom);
     CSearchEngine e(&ss);
     EXPECT_EQ(e.current_line_begin(), static_cast<uint64_t>(3));
+  }
+}
+
+TEST(SearchEngine, ScanLines)
+{
+  {
+    StringSearchStream ss(st01);
+    CSearchEngine e(&ss);
+
+    // "First line\n"
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(1));
+    EXPECT_FALSE(e.eof());
+
+    // "_First line_\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(2));
+    EXPECT_FALSE(e.eof());
+
+    // "Second line\r\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(3));
+    EXPECT_FALSE(e.eof());
+
+    // "\r\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(4));
+    EXPECT_FALSE(e.eof());
+
+    // "Third line\n\r"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(5));
+    EXPECT_FALSE(e.eof());
+
+    // "Last line";
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(6));
+    EXPECT_FALSE(e.eof());
+
+    // Empty line
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(7));
+    EXPECT_FALSE(e.eof());
+
+    EXPECT_FALSE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(8));
+    EXPECT_TRUE(e.eof());
+
+    EXPECT_FALSE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(8));
+    EXPECT_TRUE(e.eof());
+  }
+
+  {
+    StringSearchStream ss(st01_bom);
+    CSearchEngine e(&ss);
+
+    // "First line\n"
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(1));
+    EXPECT_FALSE(e.eof());
+
+    // "_First line_\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(2));
+    EXPECT_FALSE(e.eof());
+
+    // "Second line\r\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(3));
+    EXPECT_FALSE(e.eof());
+
+    // "\r\n"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(4));
+    EXPECT_FALSE(e.eof());
+
+    // "Third line\n\r"
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(5));
+    EXPECT_FALSE(e.eof());
+
+    // "Last line";
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(6));
+    EXPECT_FALSE(e.eof());
+
+    // Empty line
+    EXPECT_TRUE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(7));
+    EXPECT_FALSE(e.eof());
+
+    EXPECT_FALSE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(8));
+    EXPECT_TRUE(e.eof());
+
+    EXPECT_FALSE(e.next_line());
+    EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(8));
+    EXPECT_TRUE(e.eof());
   }
 }
 
@@ -88,7 +185,7 @@ protected:
 const char* l00[] = {NULL};
 
 const char* l01[] = {
-  "First line", "_First line_", "Second line", "", "Third line", "Last line",
+  "First line", "_First line_", "Second line", "", "Third line", "Last line", "",
   NULL
 };
 
@@ -102,7 +199,7 @@ const char* l03[] = {
   NULL
 };
 
-const char* l04[] = {"",NULL};
+const char* l04[] = {"","",NULL};
 
 const searchengine_params se_params[] {
   {NULL, l01},
