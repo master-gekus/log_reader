@@ -18,7 +18,12 @@ struct pattern_params
 
 ::std::ostream& operator <<(::std::ostream& os, const pattern_params& value)
 {
-  return os << ((NULL == value.filter_) ? "(null)" : value.filter_);
+  if (NULL == value.filter_) {
+    return os << "(null)";
+  }
+  else {
+    return os << '"' << value.filter_ << '"';
+  }
 }
 
 const char* p01[] = {"", NULL};
@@ -33,6 +38,8 @@ const pattern_params testing_params[] = {
   {"*", p01, false, false},
   {"**", p01, false, false},
   {"***", p01, false, false},
+
+  {"", p01, true, true},
 
   {"?*", p02, true, false},
   {"*?", p02, false, true},

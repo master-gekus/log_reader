@@ -49,7 +49,12 @@ struct searchengine_params
 
 ::std::ostream& operator <<(::std::ostream& os, const searchengine_params& value)
 {
-  return os << '"' << ((NULL == value.pattern_) ? "(null)" : value.pattern_) << '"';
+  if (NULL == value.pattern_) {
+    return os << "(null)";
+  }
+  else {
+    return os << '"' << value.pattern_ << '"';
+  }
 }
 
 class SearchEngine : public ::testing::TestWithParam<searchengine_params>
@@ -97,6 +102,8 @@ const char* l03[] = {
   NULL
 };
 
+const char* l04[] = {"",NULL};
+
 const searchengine_params se_params[] {
   {NULL, l01},
   {"*", l01},
@@ -114,6 +121,7 @@ const searchengine_params se_params[] {
   {"* *line", l03},
   {"?* *line*", l02},
   {"?* *lin?", l03},
+  {"", l04},
 };
 
 TEST_P(SearchEngine, Search)

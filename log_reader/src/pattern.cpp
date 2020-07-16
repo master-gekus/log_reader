@@ -52,7 +52,7 @@ CPattern* CPattern::create(const char* filter)
   CPatternElement *elements = new CPatternElement [count];
 
   bool from_begin = ((*filter) != '*');
-  bool to_end = false;
+  bool to_end = ((*filter) == '\0');;
   CPatternElement *e = elements;
   const char* part_start = NULL;
   for (; *filter; ++filter) {
