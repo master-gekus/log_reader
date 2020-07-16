@@ -6,7 +6,9 @@
 #ifndef LOG_READER_INCLUDED
 #define LOG_READER_INCLUDED
 
-#include <Windows.h>
+class CPattern;
+class CSearchEngine;
+class ILogReaderResult;
 
 /**
  * @brief The CLogReader class
@@ -53,16 +55,10 @@ public:
    * - буфер недостаточно большой, чтобы разместить в нём всю строку.
    *
    * Буфер должен быть достаточно большим, чтобы вместить всю строку целиком, включая терминирующий нулевой символ.
-   * В случае, если функция вернула false из-за недостаточного размера буфера, внутренний указатель на текущую
-   * строку не сдвигается, и можно вызвать функцию ещё раз с увеличенным буфером.
+   * В случае, если функция вернула false из-за недостаточного размера буфера, функция запишет в буфер максимально
+   * возможное число символов, включая терминирующий нулевой символ.
    */
   bool GetNextLine(char *buf, const size_t bufsize);
-
-  /**
-   * @brief Проверка, открыт ли файл
-   * @return true, если файл открыт
-   */
-  bool IsOpen() const;
 
   /**
    * @brief Проверка, достигнут ли конец файла
@@ -71,8 +67,11 @@ public:
   bool IsEof() const;
 
 private:
-  HANDLE m_hFile;
-  HANDLE m_hMap;
+  bool _GetNextLine(ILogReaderResult *pResult, unsigned* pLine);
+
+private:
+  CPattern* m_pPattern;
+  CSearchEngine* m_pEngine;
 };
 
 #endif // !LOG_READER_INCLUDED

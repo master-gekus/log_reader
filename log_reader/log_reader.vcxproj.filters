@@ -36,6 +36,12 @@
     <ClInclude Include="src\log_reader_string_result.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\search_stream_file_direct.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\search_stream_file_generic.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\log_reader.cpp">
@@ -57,6 +63,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\log_reader_string_result.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\search_stream_file_direct.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\search_stream_file_generic.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

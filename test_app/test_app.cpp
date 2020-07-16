@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <Windows.h>
 
 #include <log_reader.h>
 
@@ -13,13 +14,32 @@ int wmain(int argc, wchar_t** argv)
     return 1;
   }
 
-  wprintf(L"Trying open file: %s\n", argv[1]);
+  wprintf(L"Input file     : %s\n", argv[1]);
+  wprintf(L"Search pattern : %s\n", argv[2]);
 
   CLogReader lr;
 
   if (!lr.SetFilter(CAsciiString(argv[2]))) {
-    wprintf(L"Invalid filter: %s\n", argv[2]);
+    wprintf(L"Error set up filter. Possible invalid expression?\n");
     return 1;
   }
-    return 0;
+
+  if (!lr.Open(argv[1])) {
+    wprintf(L"Error open input file. Possible file does not exists?\n");
+    return 1;
+  }
+
+  unsigned long long count = 0;
+  unsigned long long elapsed_time = ::GetTickCount64();
+  char buffer[4096];
+  while (lr.GetNextLine(buffer, sizeof (buffer))) {
+    printf("%s\n", buffer);
+    ++count;
+  }
+  elapsed_time = ::GetTickCount64() - elapsed_time;
+
+  wprintf(L"Searching finished, found %llu line(s) in %llu.%03u seconds.\n", count, elapsed_time / 1000ULL,
+          static_cast<unsigned>(elapsed_time % 1000ULL));
+
+  return 0;
 }

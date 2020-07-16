@@ -24,6 +24,7 @@ bool StringSearchStream::get_result_(ILogReaderResult *result, uint64_t from, ui
       return false;
     }
     to_write -= written;
+    from += written;
   }
 
   result->close();

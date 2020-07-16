@@ -31,9 +31,17 @@ public:
 
   bool get_result(ILogReaderResult* result, uint64_t from, uint64_t to);
 
+  bool error() const;
+  bool interrupted() const;
+  bool can_continue() const;
+
 private:
   virtual char at_(uint64_t offset) = 0;
   virtual bool get_result_(ILogReaderResult* result, uint64_t from, uint64_t to) = 0;
+
+protected:
+  bool error_;
+  bool interrupted_;
 
 private:
   uint64_t eol_offset_;
@@ -78,6 +86,21 @@ inline uint64_t ISearchStream::last_offset() const
 inline bool ISearchStream::get_result(ILogReaderResult* result, uint64_t from, uint64_t to)
 {
   return get_result_(result, from, to);
+}
+
+inline bool ISearchStream::error() const
+{
+  return error_;
+}
+
+inline bool ISearchStream::interrupted() const
+{
+  return interrupted_;
+}
+
+inline bool ISearchStream::can_continue() const
+{
+  return !(error_ || interrupted_);
 }
 
 #endif // !ISEARCHSTREAM_H_INCLUDED
