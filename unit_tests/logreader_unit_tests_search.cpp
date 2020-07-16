@@ -29,14 +29,12 @@ const char st01_bom[] =
 TEST(SearchEngine, CreateDestroy)
 {
   {
-    StringSearchStream ss(st01);
-    CSearchEngine e(&ss);
+    CSearchEngine e(new StringSearchStream(st01));
     EXPECT_EQ(e.current_line_begin(), static_cast<uint64_t>(0));
   }
 
   {
-    StringSearchStream ss(st01_bom);
-    CSearchEngine e(&ss);
+    CSearchEngine e(new StringSearchStream(st01_bom));
     EXPECT_EQ(e.current_line_begin(), static_cast<uint64_t>(3));
   }
 }
@@ -44,8 +42,7 @@ TEST(SearchEngine, CreateDestroy)
 TEST(SearchEngine, ScanLines)
 {
   {
-    StringSearchStream ss(st01);
-    CSearchEngine e(&ss);
+    CSearchEngine e(new StringSearchStream(st01));
 
     // "First line\n"
     EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(1));
@@ -91,8 +88,7 @@ TEST(SearchEngine, ScanLines)
   }
 
   {
-    StringSearchStream ss(st01_bom);
-    CSearchEngine e(&ss);
+    CSearchEngine e(new StringSearchStream(st01_bom));
 
     // "First line\n"
     EXPECT_EQ(e.current_line_number(), static_cast<uint64_t>(1));
@@ -223,15 +219,13 @@ const searchengine_params se_params[] {
 
 TEST_P(SearchEngine, Search)
 {
-  StringSearchStream ss(st01);
-  CSearchEngine e(&ss);
+  CSearchEngine e(new StringSearchStream(st01));
   PerformSearch(&e);
 }
 
 TEST_P(SearchEngine, SearchWithBOM)
 {
-  StringSearchStream ss(st01_bom);
-  CSearchEngine e(&ss);
+  CSearchEngine e(new StringSearchStream(st01_bom));
   PerformSearch(&e);
 }
 

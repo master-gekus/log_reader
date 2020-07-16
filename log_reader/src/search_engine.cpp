@@ -21,6 +21,11 @@ CSearchEngine::CSearchEngine(ISearchStream *stream)
   }
 }
 
+CSearchEngine::~CSearchEngine()
+{
+  delete stream_;
+}
+
 uint64_t CSearchEngine::search_eol()
 {
   uint64_t o = stream_->eol_offset();

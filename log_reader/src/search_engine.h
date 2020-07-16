@@ -23,12 +23,10 @@ public:
    * @brief CSearchEngine
    * @param stream - текстовый поток для поиска в нём
    *
-   * Класс \ref CSearchEngine не становится "владельцем" потока. Вызывающий должен сам позаботиться о том, чтобы
-   * удалить поток после использования и удаления экземпляра класса \ref CSearchEngine, который их использует.
-   *
-   * \warning Обращение к методам класса \ref CSearchEngine после удалегия потока может привести к краху.
+   * Класс \ref CSearchEngine становится "владельцем" потока, и удаляет его в своём деструкторе.
    */
   CSearchEngine(ISearchStream *stream);
+  ~CSearchEngine();
 
 public:
   ISearchStream* stream() const;
