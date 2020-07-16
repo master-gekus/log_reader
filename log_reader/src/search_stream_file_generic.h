@@ -10,11 +10,11 @@
 
 #include "search_stream.h"
 
-class SearchStreamGenericFile : public ISearchStream
+class ISearchStreamGenericFile : public ISearchStream
 {
 public:
-  SearchStreamGenericFile(const wchar_t* file_name);
-  ~SearchStreamGenericFile();
+  ISearchStreamGenericFile(const wchar_t* file_name);
+  ~ISearchStreamGenericFile();
 
 protected:
   HANDLE file_;

@@ -8,11 +8,11 @@
 
 #include "search_stream_file_generic.h"
 
-class SearchStreamFileDirect : public SearchStreamGenericFile
+class CSearchStreamFileDirect : public ISearchStreamGenericFile
 {
 public:
-  SearchStreamFileDirect(const wchar_t* file_name);
-  ~SearchStreamFileDirect();
+  CSearchStreamFileDirect(const wchar_t* file_name);
+  ~CSearchStreamFileDirect();
 
 private:
   char at_(uint64_t offset);

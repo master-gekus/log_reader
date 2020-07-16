@@ -36,7 +36,7 @@ bool CLogReader::SetFilter(const char *filter)
 
 bool CLogReader::Open(const wchar_t* name)
 {
-  ISearchStream *stream = new SearchStreamFileDirect(name);
+  ISearchStream *stream = new CSearchStreamFileDirect(name);
   if (!stream->can_continue()) {
     return false;
   }

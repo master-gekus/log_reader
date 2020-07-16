@@ -1,16 +1,16 @@
 #include "search_stream_file_direct.h"
 #include "log_reader_result.h"
 
-SearchStreamFileDirect::SearchStreamFileDirect(const wchar_t* file_name)
-  : SearchStreamGenericFile(file_name)
+CSearchStreamFileDirect::CSearchStreamFileDirect(const wchar_t* file_name)
+  : ISearchStreamGenericFile(file_name)
 {
 }
 
-SearchStreamFileDirect::~SearchStreamFileDirect()
+CSearchStreamFileDirect::~CSearchStreamFileDirect()
 {
 }
 
-char SearchStreamFileDirect::at_(uint64_t offset)
+char CSearchStreamFileDirect::at_(uint64_t offset)
 {
   if ((!can_continue()) || (offset >= file_size_)) {
     return '\0';
@@ -29,7 +29,7 @@ char SearchStreamFileDirect::at_(uint64_t offset)
   return c;
 }
 
-bool SearchStreamFileDirect::get_result_(ILogReaderResult* result, uint64_t from, uint64_t to)
+bool CSearchStreamFileDirect::get_result_(ILogReaderResult* result, uint64_t from, uint64_t to)
 {
   if ((from >= file_size_) || (to >= file_size_) || (from > to) || (!can_continue())) {
     return false;

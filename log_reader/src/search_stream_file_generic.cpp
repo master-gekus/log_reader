@@ -1,6 +1,6 @@
 #include "search_stream_file_generic.h"
 
-SearchStreamGenericFile::SearchStreamGenericFile(const wchar_t* file_name)
+ISearchStreamGenericFile::ISearchStreamGenericFile(const wchar_t* file_name)
   : file_(INVALID_HANDLE_VALUE)
   , file_size_(0)
 {
@@ -16,7 +16,7 @@ SearchStreamGenericFile::SearchStreamGenericFile(const wchar_t* file_name)
   file_size_ = (static_cast<uint64_t>(size_high) << 32) + static_cast<uint64_t>(size_low);
 }
 
-SearchStreamGenericFile::~SearchStreamGenericFile()
+ISearchStreamGenericFile::~ISearchStreamGenericFile()
 {
   if (INVALID_HANDLE_VALUE != file_) {
     ::CloseHandle(file_);
