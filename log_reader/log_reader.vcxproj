@@ -28,6 +28,7 @@
     <ClInclude Include="src\search_stream.h" />
     <ClInclude Include="src\search_stream_file_direct.h" />
     <ClInclude Include="src\search_stream_file_generic.h" />
+    <ClInclude Include="src\search_stream_file_windowed.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\log_reader.cpp" />
@@ -39,6 +40,7 @@
     <ClCompile Include="src\search_stream.cpp" />
     <ClCompile Include="src\search_stream_file_direct.cpp" />
     <ClCompile Include="src\search_stream_file_generic.cpp" />
+    <ClCompile Include="src\search_stream_file_windowed.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <ProjectGuid>{B22C2DE7-ACCB-4F4B-9158-BA670E4227A9}</ProjectGuid>

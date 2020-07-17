@@ -28,6 +28,8 @@ set(LOG_READER_SOURCES
   ${LOG_READER_SOURCE_DIR}/search_stream_file_generic.cpp
   ${LOG_READER_SOURCE_DIR}/search_stream_file_direct.h
   ${LOG_READER_SOURCE_DIR}/search_stream_file_direct.cpp
+  ${LOG_READER_SOURCE_DIR}/search_stream_file_windowed.h
+  ${LOG_READER_SOURCE_DIR}/search_stream_file_windowed.cpp
   )
 
 add_library(${PROJECT_NAME} STATIC

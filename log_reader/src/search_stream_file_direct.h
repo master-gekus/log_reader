@@ -16,7 +16,6 @@ public:
 
 private:
   char at_(uint64_t offset);
-  bool get_result_(ILogReaderResult* result, uint64_t from, uint64_t to);
 };
 
 #endif // !SEARCH_STREAM_FILE_DIRECT_H_INCLUDED

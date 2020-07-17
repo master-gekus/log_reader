@@ -3,6 +3,7 @@
 #include "pattern.h"
 #include "search_engine.h"
 #include "search_stream_file_direct.h"
+#include "search_stream_file_windowed.h"
 #include "log_reader_string_result.h"
 
 CLogReader::CLogReader()
@@ -36,7 +37,7 @@ bool CLogReader::SetFilter(const char *filter)
 
 bool CLogReader::Open(const wchar_t* name)
 {
-  ISearchStream *stream = new CSearchStreamFileDirect(name);
+  ISearchStream *stream = new CSearchStreamFileWindowed(name, 0x10000);
   if (!stream->can_continue()) {
     return false;
   }
