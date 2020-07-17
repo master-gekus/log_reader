@@ -75,6 +75,16 @@ public:
    */
   bool GetNextLine(char *buf, const size_t bufsize, unsigned *line_number);
 
+  /**
+   * @brief Выдать следующую строку через интерфейс
+   * @param pResult Ссылка на интерфейс
+   * @return
+   * @return true, если строка, включая терминирующий нулевой символ, помещена в буфер.
+   *
+   * \overload
+   */
+  bool GetNextLine(ILogReaderResult& pResult);
+
 private:
   bool _GetNextLine(ILogReaderResult *pResult);
 
@@ -82,5 +92,10 @@ private:
   CPattern* m_pPattern;
   CSearchEngine* m_pEngine;
 };
+
+inline bool CLogReader::GetNextLine(ILogReaderResult& pResult)
+{
+  return _GetNextLine(&pResult);
+}
 
 #endif // !LOG_READER_INCLUDED

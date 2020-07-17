@@ -4,6 +4,7 @@
 #include <log_reader.h>
 
 #include "ascii_string.h"
+#include "log_reader_file_result.h"
 
 // Используем wmain вместо main на случай, если будет
 // передаваться имя файла, содержащее не-ASCII символы.
@@ -42,10 +43,18 @@ int wmain(int argc, wchar_t** argv)
   */
 
   // Реализация с номерами строк
+  /*
   char buffer[4096];
   unsigned line_number;
   while (lr.GetNextLine(buffer, sizeof (buffer), &line_number)) {
     printf("%7u: %s\n", line_number, buffer);
+    ++count;
+  }
+  */
+
+  // Реализация с помощью интерфейса, без ограничения на длину строки
+  CLogReaderFileResult res(stdout);
+  while (lr.GetNextLine(res)) {
     ++count;
   }
 

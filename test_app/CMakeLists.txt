@@ -10,6 +10,8 @@ add_executable(${PROJECT_NAME}
   test_app.cpp
   ascii_string.h
   ascii_string.cpp
+  log_reader_file_result.h
+  log_reader_file_result.cpp
   )
 
 target_link_libraries(${PROJECT_NAME}
