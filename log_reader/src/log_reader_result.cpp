@@ -8,6 +8,10 @@ ILogReaderResult::~ILogReaderResult()
 {
 }
 
-void ILogReaderResult::close()
+void ILogReaderResult::Close()
+{
+}
+
+void ILogReaderResult::SetLineNumber(unsigned /*number*/)
 {
 }

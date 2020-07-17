@@ -19,6 +19,7 @@ public:
   CLogReader();
   ~CLogReader();
 
+// Базовый функционал
 public:
   /**
    * @brief Открыть файл для обработки
@@ -51,8 +52,8 @@ public:
    *
    * Функция возвращает false в случае:
    * - файл не открыт
-   * - больше нет подходящих строк (\sa IsEof).
-   * - буфер недостаточно большой, чтобы разместить в нём всю строку.
+   * - больше нет подходящих строк
+   * - буфер недостаточно большой, чтобы разместить в нём всю строку
    *
    * Буфер должен быть достаточно большим, чтобы вместить всю строку целиком, включая терминирующий нулевой символ.
    * В случае, если функция вернула false из-за недостаточного размера буфера, функция запишет в буфер максимально
@@ -60,14 +61,22 @@ public:
    */
   bool GetNextLine(char *buf, const size_t bufsize);
 
+// Расширенный функционал
+public:
   /**
-   * @brief Проверка, достигнут ли конец файла
-   * @return true, если достигнут конце файла или файл не открыт (\sa IsOpen)
+   * @brief Выдать следующую строку
+   * @param buf Буфер для помещения данных строки
+   * @param bufsize Размер буфера
+   * @param line_number Указатель на переменную для получения номера строки (может быть NULL, если номер
+   *                    строки не нужен. Строки нумеруются с 1.
+   * @return true, если строка, включая терминирующий нулевой символ, помещена в буфер.
+   *
+   * \overload
    */
-  bool IsEof() const;
+  bool GetNextLine(char *buf, const size_t bufsize, unsigned *line_number);
 
 private:
-  bool _GetNextLine(ILogReaderResult *pResult, unsigned* pLine);
+  bool _GetNextLine(ILogReaderResult *pResult);
 
 private:
   CPattern* m_pPattern;

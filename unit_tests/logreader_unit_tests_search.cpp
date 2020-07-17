@@ -164,7 +164,7 @@ protected:
     while (true) {
       if (e->match(pattern)) {
         char buf[1024];
-        CLogReaderStringResult res(buf, sizeof (buf));
+        CLogReaderStringResult res(buf, sizeof (buf), NULL);
         ASSERT_TRUE(e->get_line(&res));
         ASSERT_NE(*p, static_cast<char*>(NULL));
         EXPECT_STREQ(buf, *p);
