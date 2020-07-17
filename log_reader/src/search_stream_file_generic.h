@@ -10,11 +10,17 @@
 
 #include "search_stream.h"
 
-class SearchStreamGenericFile : public ISearchStream
+class ISearchStreamGenericFile : public ISearchStream
 {
 public:
-  SearchStreamGenericFile(const wchar_t* file_name);
-  ~SearchStreamGenericFile();
+  ISearchStreamGenericFile(const wchar_t* file_name);
+  ~ISearchStreamGenericFile();
+
+private:
+  bool get_result_(ILogReaderResult* result, uint64_t from, uint64_t to);
+
+protected:
+  bool seek(uint64_t offset);
 
 protected:
   HANDLE file_;
