@@ -49,11 +49,17 @@ bool CLogReader::Open(const wchar_t* name)
 
 bool CLogReader::GetNextLine(char *buf, const size_t bufsize)
 {
-  CLogReaderStringResult result(buf, bufsize);
-  return _GetNextLine(&result, NULL);
+  CLogReaderStringResult result(buf, bufsize, NULL);
+  return _GetNextLine(&result);
 }
 
-bool CLogReader::_GetNextLine(ILogReaderResult *pResult, unsigned* pLine)
+bool CLogReader::GetNextLine(char *buf, const size_t bufsize, unsigned *line_number)
+{
+  CLogReaderStringResult result(buf, bufsize, line_number);
+  return _GetNextLine(&result);
+}
+
+bool CLogReader::_GetNextLine(ILogReaderResult *pResult)
 {
   if ((NULL == m_pEngine) || (m_pEngine->eof())) {
     return false;
@@ -61,10 +67,8 @@ bool CLogReader::_GetNextLine(ILogReaderResult *pResult, unsigned* pLine)
 
   while(true) {
     if (m_pEngine->match(m_pPattern)) {
+      pResult->SetLineNumber(static_cast<unsigned>(m_pEngine->current_line_number()));
       bool res = m_pEngine->get_line(pResult);
-      if (NULL != pLine) {
-        *pLine = static_cast<unsigned>(m_pEngine->current_line_number());
-      }
       m_pEngine->next_line();
       return res;
     }

@@ -57,13 +57,13 @@ bool ISearchStreamGenericFile::get_result_(ILogReaderResult* result, uint64_t fr
       return false;
     }
 
-    DWORD written = static_cast<DWORD>(result->write(buf, read));
+    DWORD written = static_cast<DWORD>(result->Write(buf, read));
     if (0 == written) {
       return false;
     }
     total -= read;
   }
 
-  result->close();
+  result->Close();
   return true;
 }

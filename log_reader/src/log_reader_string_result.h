@@ -11,16 +11,18 @@
 class CLogReaderStringResult : public ILogReaderResult
 {
 public:
-  CLogReaderStringResult(void* buffer, size_t size);
+  CLogReaderStringResult(void* buffer, size_t size, unsigned *line_number);
 
 public:
-  uint64_t write(const void *data, size_t size);
-  void close();
+  uint64_t Write(const void *data, size_t size);
+  void Close();
+  void SetLineNumber(unsigned number);
 
 private:
   char *buf_;
   uint64_t size_;
   uint64_t offset_;
+  unsigned *line_number_;
 };
 
 #endif // !LOG_READER_STRING_RESULT_H_INCLUDED

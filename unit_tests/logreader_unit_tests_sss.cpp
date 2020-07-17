@@ -19,7 +19,7 @@ bool StringSearchStream::get_result_(ILogReaderResult *result, uint64_t from, ui
   uint64_t to_write = to - from;
 
   while (to_write > 0) {
-    uint64_t written = result->write(data_ + from, to_write);
+    uint64_t written = result->Write(data_ + from, to_write);
     if (0 == written) {
       return false;
     }
@@ -27,6 +27,6 @@ bool StringSearchStream::get_result_(ILogReaderResult *result, uint64_t from, ui
     from += written;
   }
 
-  result->close();
+  result->Close();
   return true;
 }

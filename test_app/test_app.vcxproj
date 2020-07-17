@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ascii_string.cpp" />
+    <ClCompile Include="log_reader_file_result.cpp" />
     <ClCompile Include="test_app.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -156,6 +157,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ascii_string.h" />
+    <ClInclude Include="log_reader_file_result.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
